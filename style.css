@@ -429,3 +429,21 @@ Description: Custom Extendable child theme with security-focused modifications a
         font-size: 0.84em;
     }
 }
+
+/* Automatic inline code styling */
+p code,
+li code,
+figcaption code,
+.wp-block-heading code {
+    display: inline-block;
+    padding: 0.1em 0.42em;
+    border: 1px solid rgba(15, 23, 42, 0.14);
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 0.9em;
+    font-weight: 600;
+    line-height: 1.35;
+    white-space: nowrap;
+}
