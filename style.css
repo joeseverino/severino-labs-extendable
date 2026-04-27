@@ -434,6 +434,7 @@ Description: Custom Extendable child theme with security-focused modifications a
 p code,
 li code,
 figcaption code,
+
 .wp-block-heading code {
     display: inline-block;
     padding: 0.1em 0.42em;
