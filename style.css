@@ -41,6 +41,7 @@ body { margin: 0; }
 
 .wp-block-navigation a:hover {
     color: var(--wp--preset--color--primary);
+    text-decoration: none;
 }
 
 .wp-block-navigation a:hover::after {
