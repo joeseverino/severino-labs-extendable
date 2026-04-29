@@ -14,10 +14,26 @@ Description: Custom Extendable child theme with security-focused modifications a
 
 */
 
+/* =========================
+   Design Tokens
+   ========================= */
+
+:root {
+  --radius-sm:   10px;
+  --radius-md:   12px;
+  --radius-pill: 999px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --radius-md: 10px;
+  }
+}
+
 .wp-block-heading { overflow-wrap: break-word; hyphens: auto; text-wrap: balance; } .wp-block-heading:lang(zh), .wp-block-heading:lang(ja), .wp-block-heading:lang(ko), .wp-block-heading:lang(th), .wp-block-heading:lang(lo), .wp-block-heading:lang(my), .wp-block-heading:lang(km), .wp-block-heading:lang(ar), .wp-block-heading:lang(ur) { word-break: keep-all; hyphens: manual; }
 .pill {
   display: inline-flex; align-items: center; gap: .4em;
-  padding: 6px 10px; border-radius: 999px;
+  padding: 6px 10px; border-radius: var(--radius-pill);
   background: var(--wp--preset--color--tertiary);
   color: var(--wp--preset--color--foreground);
   border: 1px solid rgba(0,0,0,0.07); font-size: 14px; font-weight: 600;
@@ -73,7 +89,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     letter-spacing: 0.08em;
     text-transform: uppercase;
     padding: 3px 9px;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     text-align: left;
     margin-left: 0;
     margin-right: auto;
@@ -117,7 +133,7 @@ Description: Custom Extendable child theme with security-focused modifications a
 .featured-projects .wp-block-post {
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
     background: var(--wp--preset--color--background);
     border: 1px solid rgba(0,0,0,0.05);
@@ -169,16 +185,14 @@ Description: Custom Extendable child theme with security-focused modifications a
 /* Date: directly under title */
 .featured-projects .wp-block-post-date {
     font-size: 12px;
-    color: var(--wp--preset--color--foreground);
-    opacity: 0.55;
+    color: var(--wp--preset--color--muted);
     margin: 0;
 }
 
 /* Excerpt: same height too */
 .featured-projects .wp-block-post-excerpt {
     font-size: 14px;
-    color: var(--wp--preset--color--foreground);
-    opacity: 0.7;
+    color: var(--wp--preset--color--muted);
     line-height: 1.5;
     margin: 0;
 
@@ -222,7 +236,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     width: 100%;
     max-height: 320px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
 }
 
 /* Title */
@@ -236,19 +250,17 @@ Description: Custom Extendable child theme with security-focused modifications a
 .post-clean .wp-block-post-date {
     margin-bottom: 18px;
     font-size: 13px;
-    color: var(--wp--preset--color--foreground);
-    opacity: 0.55;
+    color: var(--wp--preset--color--muted);
 }
 
 /* Body text */
 .post-clean .wp-block-post-content {
     line-height: 1.65;
-    font-size: 16px;
 }
 
 /* Images inside content */
 .post-clean .wp-block-image img {
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
 }
 
 /* Spacing between sections */
@@ -272,35 +284,29 @@ Description: Custom Extendable child theme with security-focused modifications a
     margin: 4px 6px 4px 0;
 
     font-size: 12px;
-    color: #444;
+    color: var(--wp--preset--color--foreground);
     text-decoration: none;
 
     background: rgba(0,0,0,0.04);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     border: 1px solid rgba(0,0,0,0.05);
 
-    transition: all 0.15s ease;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .tech-pills a:hover {
     background: rgba(0,0,0,0.08);
-    color: #000;
+    color: var(--wp--preset--color--foreground);
 }
 
 .wp-block-button__link {
-
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.18);
-
-  transition: all 0.2s ease;
-
+  box-shadow: var(--wp--preset--shadow--soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .wp-block-button__link:hover {
-
   transform: translateY(-2px);
-
-  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.22);
-
+  box-shadow: var(--wp--preset--shadow--soft-lg);
 }
 
 /* =========================
@@ -346,7 +352,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     margin: 1.5rem 0;
     padding: 0 1.1rem 1rem;
     border: 1px solid rgba(148, 163, 184, 0.25);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: #020617;
     color: #d1d5db;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
@@ -363,7 +369,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     margin: 0 -1.1rem 0.85rem;
     padding: 0.55rem 1.1rem;
     border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-    border-radius: 12px 12px 0 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
     background: #111827;
     color: #9ca3af;
     font-size: 0.78rem;
@@ -401,7 +407,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     margin: 1.5rem 0;
     padding: 1.1rem 1.25rem;
     border: 1px solid rgba(15, 23, 42, 0.14);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: #f8fafc;
     color: #0f172a;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
@@ -426,7 +432,6 @@ Description: Custom Extendable child theme with security-focused modifications a
     .source-code-block {
         font-size: 0.82rem;
         line-height: 1.55;
-        border-radius: 10px;
     }
 
     .cli-inline {
