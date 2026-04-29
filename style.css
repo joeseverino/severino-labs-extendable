@@ -32,7 +32,7 @@ a, button, [role="button"],
 .wp-block-navigation__responsive-container-close:focus:not(:focus-visible) { outline: none; }
 
 /* Restore underline on hover for body content links only */
-.wp-block-post-content a:hover {
+.wp-block-post-content a:not(.wp-block-button__link):hover {
     text-decoration: underline;
 }
 
@@ -211,6 +211,7 @@ a, button, [role="button"],
 }
 
 .featured-projects .wp-block-post {
+    position: relative;
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-sm);
@@ -220,6 +221,15 @@ a, button, [role="button"],
     box-shadow: var(--wp--preset--shadow--soft);
     gap: 10px;
     cursor: pointer;
+}
+
+/* Stretch the title link across the whole card so the browser treats
+   the entire card as a real link, not just a JS click zone */
+.featured-projects .wp-block-post-title a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
 }
 
 .featured-projects .wp-block-post a {
