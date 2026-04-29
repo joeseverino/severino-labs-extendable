@@ -17,14 +17,32 @@ Description: Custom Extendable child theme with security-focused modifications a
 body { margin: 0; }
 a, button, [role="button"],
 .wp-block-navigation-item,
-.wp-block-navigation-item__content { -webkit-tap-highlight-color: transparent; }
+.wp-block-navigation-item__content,
+.wp-block-navigation__responsive-container-open,
+.wp-block-navigation__responsive-container-close,
+.wp-block-site-title a,
+.wp-block-post,
+.wp-block-post-title { -webkit-tap-highlight-color: transparent; }
 
-/* Remove browser focus ring when focus is triggered by tap/mouse (not keyboard) */
-.wp-block-navigation a:focus:not(:focus-visible) { outline: none; }
+/* Remove browser focus ring when triggered by tap/mouse rather than keyboard */
+.wp-block-navigation a:focus:not(:focus-visible),
+.wp-block-site-title a:focus:not(:focus-visible),
+.wp-block-post-title a:focus:not(:focus-visible),
+.wp-block-navigation__responsive-container-open:focus:not(:focus-visible),
+.wp-block-navigation__responsive-container-close:focus:not(:focus-visible) { outline: none; }
 
 /* Restore underline on hover for body content links only */
 .wp-block-post-content a:hover {
     text-decoration: underline;
+}
+
+/* Card title links — no underline, colour shift only */
+.featured-projects .wp-block-post-title a {
+    text-decoration: none !important;
+    transition: color 0.15s ease;
+}
+.featured-projects .wp-block-post-title a:hover {
+    color: var(--wp--preset--color--primary);
 }
 
 /* =========================
@@ -160,13 +178,13 @@ a, button, [role="button"],
 
 /* colors */
 .badge-mini-series {
-    background: rgba(0, 122, 255, 0.08);
-    color: #007aff;
+    background: rgba(56, 29, 146, 0.08);
+    color: var(--wp--preset--color--primary);
 }
 
 .badge-flagship {
-    background: rgba(52, 199, 89, 0.08);
-    color: #34c759;
+    background: rgba(11, 6, 32, 0.07);
+    color: var(--wp--preset--color--foreground);
 }
 
 /* mobile */
@@ -275,7 +293,7 @@ a, button, [role="button"],
 
     .featured-projects .wp-block-post:hover {
         transform: translateY(-6px);
-        box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+        box-shadow: var(--wp--preset--shadow--soft-lg);
     }
 }
 
