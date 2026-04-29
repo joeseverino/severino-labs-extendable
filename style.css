@@ -27,7 +27,7 @@ body { margin: 0; }
 
 .wp-block-navigation a {
     position: relative;
-    text-decoration: none;
+    text-decoration: none !important;
     letter-spacing: 0.03em;
     font-weight: var(--wp--custom--typography--font-weight--medium);
     transition: color 0.2s ease;
@@ -46,7 +46,6 @@ body { margin: 0; }
 
 .wp-block-navigation a:hover {
     color: var(--wp--preset--color--primary);
-    text-decoration: none;
 }
 
 .wp-block-navigation a:hover::after {
@@ -54,12 +53,20 @@ body { margin: 0; }
 }
 
 .wp-block-navigation .current-menu-item > a,
-.wp-block-navigation .current-page-ancestor > a {
+.wp-block-navigation .current-menu-ancestor > a,
+.wp-block-navigation .current-menu-parent > a,
+.wp-block-navigation .current_page_item > a,
+.wp-block-navigation .current_page_ancestor > a,
+.wp-block-navigation .current_page_parent > a {
     color: var(--wp--preset--color--primary);
 }
 
 .wp-block-navigation .current-menu-item > a::after,
-.wp-block-navigation .current-page-ancestor > a::after {
+.wp-block-navigation .current-menu-ancestor > a::after,
+.wp-block-navigation .current-menu-parent > a::after,
+.wp-block-navigation .current_page_item > a::after,
+.wp-block-navigation .current_page_ancestor > a::after,
+.wp-block-navigation .current_page_parent > a::after {
     width: 100%;
 }
 
