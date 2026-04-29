@@ -17,6 +17,47 @@ Description: Custom Extendable child theme with security-focused modifications a
 body { margin: 0; }
 
 /* =========================
+   Navigation
+   ========================= */
+
+.wp-block-navigation a {
+    position: relative;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    font-weight: var(--wp--custom--typography--font-weight--medium);
+    transition: color 0.2s ease;
+}
+
+.wp-block-navigation a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--wp--preset--color--primary);
+    transition: width 0.2s ease;
+}
+
+.wp-block-navigation a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+.wp-block-navigation a:hover::after {
+    width: 100%;
+}
+
+.wp-block-navigation .current-menu-item > a,
+.wp-block-navigation .current-page-ancestor > a {
+    color: var(--wp--preset--color--primary);
+}
+
+.wp-block-navigation .current-menu-item > a::after,
+.wp-block-navigation .current-page-ancestor > a::after {
+    width: 100%;
+}
+
+/* =========================
    Design Tokens
    ========================= */
 
