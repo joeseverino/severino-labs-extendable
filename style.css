@@ -146,6 +146,12 @@ a, button, [role="button"],
 
 @media (max-width: 768px) {
 
+  /* Prevent title from shifting when nav overlay opens */
+  .site-sticky-header .wp-block-site-title,
+  .site-sticky-header .wp-block-site-logo {
+    flex-shrink: 0;
+  }
+
   .wp-block-navigation__responsive-container.is-menu-open {
     position: fixed;
     top: 0;
@@ -262,7 +268,7 @@ a, button, [role="button"],
 
 /* Title: force same height */
 .featured-projects .wp-block-post-title {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.3;
     font-weight: 600;
     margin: 0;
@@ -270,7 +276,7 @@ a, button, [role="button"],
     min-height: 4.4em;
 
     display: flex;
-    align-items: center;   /* 🔥 centers vertically */
+    align-items: center;
 }
 
 /* Date: directly under title */
