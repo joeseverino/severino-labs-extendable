@@ -14,6 +14,8 @@ Description: Custom Extendable child theme with security-focused modifications a
 
 */
 
+body { margin: 0; }
+
 /* =========================
    Design Tokens
    ========================= */
