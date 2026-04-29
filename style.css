@@ -16,6 +16,11 @@ Description: Custom Extendable child theme with security-focused modifications a
 
 body { margin: 0; }
 
+/* Restore underline on hover for body content links only */
+.wp-block-post-content a:hover {
+    text-decoration: underline;
+}
+
 /* =========================
    Navigation
    ========================= */
