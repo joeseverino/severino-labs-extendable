@@ -15,7 +15,12 @@ Description: Custom Extendable child theme with security-focused modifications a
 */
 
 body { margin: 0; }
-a, button, [role="button"] { -webkit-tap-highlight-color: transparent; }
+a, button, [role="button"],
+.wp-block-navigation-item,
+.wp-block-navigation-item__content { -webkit-tap-highlight-color: transparent; }
+
+/* Remove browser focus ring when focus is triggered by tap/mouse (not keyboard) */
+.wp-block-navigation a:focus:not(:focus-visible) { outline: none; }
 
 /* Restore underline on hover for body content links only */
 .wp-block-post-content a:hover {
@@ -302,6 +307,7 @@ a, button, [role="button"] { -webkit-tap-highlight-color: transparent; }
     margin-top: 10px;
     margin-bottom: 6px;
     line-height: 1.2;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
 }
 
 /* Date */
