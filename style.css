@@ -18,8 +18,9 @@ Description: Custom Extendable child theme with security-focused modifications a
 .pill {
   display: inline-flex; align-items: center; gap: .4em;
   padding: 6px 10px; border-radius: 999px;
-  background: #f5f7fb; color: #192132;
-  border: 1px solid #e7e9ef; font-size: 14px; font-weight: 600;
+  background: var(--wp--preset--color--tertiary);
+  color: var(--wp--preset--color--foreground);
+  border: 1px solid rgba(0,0,0,0.07); font-size: 14px; font-weight: 600;
   line-height: 1;
 }
 .sticky-button {
@@ -35,7 +36,7 @@ Description: Custom Extendable child theme with security-focused modifications a
   top: 0;
   z-index: 1000;
 
-  background: rgba(255, 255, 255, 0.7); /* transparency */
+  background: color-mix(in srgb, var(--wp--preset--color--background) 70%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px); /* Safari support */
 
@@ -44,7 +45,7 @@ Description: Custom Extendable child theme with security-focused modifications a
 
 .site-sticky-header.scrolled {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  background: rgba(255, 255, 255, 0.85); /* slightly more solid on scroll */
+  background: color-mix(in srgb, var(--wp--preset--color--background) 85%, transparent);
 }
 
 @media (max-width: 768px) {
@@ -59,7 +60,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     height: 100vh;
     z-index: 9999;
 
-    background: white;
+    background: var(--wp--preset--color--background);
   }
 
 }
@@ -118,7 +119,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     flex-direction: column;
     border-radius: 10px;
     overflow: hidden;
-    background: #ffffff;
+    background: var(--wp--preset--color--background);
     border: 1px solid rgba(0,0,0,0.05);
     gap: 10px;
     cursor: pointer;
@@ -168,14 +169,16 @@ Description: Custom Extendable child theme with security-focused modifications a
 /* Date: directly under title */
 .featured-projects .wp-block-post-date {
     font-size: 12px;
-    color: #777;
+    color: var(--wp--preset--color--foreground);
+    opacity: 0.55;
     margin: 0;
 }
 
 /* Excerpt: same height too */
 .featured-projects .wp-block-post-excerpt {
     font-size: 14px;
-    color: #555;
+    color: var(--wp--preset--color--foreground);
+    opacity: 0.7;
     line-height: 1.5;
     margin: 0;
 
@@ -233,7 +236,8 @@ Description: Custom Extendable child theme with security-focused modifications a
 .post-clean .wp-block-post-date {
     margin-bottom: 18px;
     font-size: 13px;
-    color: #777;
+    color: var(--wp--preset--color--foreground);
+    opacity: 0.55;
 }
 
 /* Body text */
@@ -257,7 +261,7 @@ Description: Custom Extendable child theme with security-focused modifications a
     padding-bottom: 20px;
 }
 
-.portfolio-link {
+.portfolio-link:active {
     transform: scale(0.95);
 }
 

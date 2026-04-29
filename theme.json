@@ -141,7 +141,7 @@
 				},
 				{
 					"slug": "foreground-alt",
-					"color": "#0B0620",
+					"color": "#5E4E9E",
 					"name": "Foreground Alt"
 				}
 			]
@@ -489,6 +489,7 @@
 				{
 					"fontFace": [
 						{
+							"fontDisplay": "block",
 							"fontFamily": "Inter",
 							"fontStretch": "normal",
 							"fontStyle": "normal",
@@ -685,6 +686,7 @@
 				{
 					"fontFace": [
 						{
+							"fontDisplay": "block",
 							"fontFamily": "Source Serif Pro",
 							"fontStretch": "normal",
 							"fontStyle": "normal",
@@ -799,7 +801,7 @@
 			"core/comments-title": {
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--large)",
-					"fontWeight": "(--wp--custom--typography--font-weight--bold)",
+					"fontWeight": "var(--wp--custom--typography--font-weight--bold)",
 					"letterSpacing": "0"
 				}
 			},
@@ -973,8 +975,8 @@
 				"border": {
 					"radius": "var(--wp--custom--elements--button--border--radius)"
 				},
+				"shadow": "var(--wp--preset--shadow--brutalism)",
 				"color": {
-					"shadow": "var(--wp--preset--shadow--brutalism)",
 					"background": "var(--wp--custom--elements--button--color--background)",
 					"text": "var(--wp--custom--elements--button--color--text)"
 				},
