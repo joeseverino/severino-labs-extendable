@@ -40,7 +40,7 @@ a, button, [role="button"],
 /* Tech pills — no underline */
 .tech-pills a,
 .tech-pills a:hover {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 /* Card title links — no underline, colour shift only */
