@@ -12,7 +12,78 @@ Description: A personal portfolio and blog theme with security-focused modificat
 
 */
 
-body { margin: 0; }
+/* =========================
+   Base
+   ========================= */
+
+/* Spacing variable fallbacks */
+:root {
+    --wp--custom--spacing--small:  var(--wp--preset--spacing--30,  clamp(1.5rem, 5vw, 2rem));
+    --wp--custom--spacing--medium: var(--wp--preset--spacing--50,  clamp(2.5rem, 8vw, 4rem));
+    --wp--custom--spacing--large:  var(--wp--preset--spacing--60,  clamp(2.5rem, 8vw, 6rem));
+    --wp--custom--spacing--outer:  max(1.25rem, 4vw);
+    --wp--preset--spacing--80:     min(8rem, 12vw);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    -moz-osx-font-smoothing:  var(--wp--custom--typography--font-smoothing--moz, auto);
+    -webkit-font-smoothing:   var(--wp--custom--typography--font-smoothing--webkit, auto);
+}
+
+a {
+    text-decoration-style:     var(--wp--custom--elements--link--static--text-decoration-style, solid);
+    text-decoration-thickness: var(--wp--custom--elements--link--text-decoration-thickness, 1px);
+    text-underline-offset:     var(--wp--custom--elements--link--text-underline-offset, 0.25ch);
+}
+
+a:hover, a:focus {
+    text-decoration-style: var(--wp--custom--elements--link--interactive--text-decoration-style, dashed);
+}
+
+a:active { text-decoration: none; }
+
+:where(.wp-site-blocks *:focus) { outline-width: 1px; outline-style: solid; }
+
+/* Footer top-margin reset */
+footer.wp-block-template-part:not([style*="margin-top"]) { margin-top: 0; }
+
+/* Image border-radius overflow fix */
+.wp-block-image[style*="-radius"]:not([style*="overflow"]) { overflow: hidden; }
+
+/* Button transition */
+.wp-element-button { transition: background-color 0.15s ease; }
+
+/* Table stripes */
+.wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
+    background-color: var(--wp--custom--blocks--core-table--variant-stripes--color--background, var(--wp--preset--color--tertiary));
+}
+
+/* Quote plain variation */
+blockquote.is-style-plain { border: none; padding-left: 0; }
+
+/* Inputs */
+input, textarea { caret-color: inherit; outline-color: inherit; }
+
+:where(.wp-block-post-comments-form) input:not([type=submit]),
+:where(.wp-block-post-comments-form) textarea {
+    background-color: var(--wp--preset--color--background);
+    color: var(--wp--preset--color--foreground);
+    border-color: inherit;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
 a, button, [role="button"],
 .wp-block-navigation-item,
 .wp-block-navigation-item__content,
@@ -136,17 +207,32 @@ a, button, [role="button"],
   position: sticky;
   top: 0;
   z-index: 1000;
+  /* backdrop-filter lives on ::before to avoid a Safari bug where applying it
+     directly to a sticky element blocks pointer events on all content below */
+}
 
+.site-sticky-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: color-mix(in srgb, var(--wp--preset--color--background) 70%, transparent);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); /* Safari support */
-
+  -webkit-backdrop-filter: blur(12px);
   transition: box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.site-sticky-header.scrolled {
+.site-sticky-header.scrolled::before {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   background: color-mix(in srgb, var(--wp--preset--color--background) 85%, transparent);
+}
+
+@media (max-width: 768px) {
+  /* spacing--20 = 1rem drives the header's top/bottom padding via inline style.
+     Override it here so the header stays compact on small screens.           */
+  .site-sticky-header {
+    --wp--preset--spacing--20: 0.4rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -155,18 +241,115 @@ a, button, [role="button"],
   .site-sticky-header .wp-block-site-title,
   .site-sticky-header .wp-block-site-logo { flex-shrink: 0; }
 
-  /* ── Full-screen overlay ── */
+  /* ══ Hamburger button — always visible, morphs cleanly into X ══ */
+  .wp-block-navigation__responsive-container-open {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer;
+    color: var(--wp--preset--color--foreground);
+    flex-shrink: 0;
+  }
+
+  /* Hide WP's default SVG icon — we draw lines via pseudo-elements */
+  .wp-block-navigation__responsive-container-open svg {
+    display: none !important;
+  }
+
+  /* ::before = top line + middle line (via box-shadow) */
+  /* ::after  = bottom line                              */
+  .wp-block-navigation__responsive-container-open::before,
+  .wp-block-navigation__responsive-container-open::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  .wp-block-navigation__responsive-container-open::before {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 0 currentColor; /* middle bar */
+  }
+
+  .wp-block-navigation__responsive-container-open::after {
+    transform: translateY(6px);
+  }
+
+  /* When menu is open: morph hamburger → X */
+  .wp-block-navigation:has(.wp-block-navigation__responsive-container.is-menu-open)
+  .wp-block-navigation__responsive-container-open::before {
+    transform: rotate(45deg);
+    box-shadow: none; /* hide middle bar */
+  }
+
+  .wp-block-navigation:has(.wp-block-navigation__responsive-container.is-menu-open)
+  .wp-block-navigation__responsive-container-open::after {
+    transform: rotate(-45deg);
+  }
+
+  /* ══ Close button — visually hidden but in normal flow so .click() fires
+     reliably in all browsers. JS handles triggering it; no overlay needed. ══ */
+  .wp-block-navigation__responsive-container-close {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  /* ══ Overlay — transparent so the portal backdrop provides the blur.
+     backdrop-filter can't pierce the sticky header's stacking context,
+     so the blur lives on #sl-nav-backdrop (appended to <body> by JS).
+     Solid fallback used when JS hasn't run yet.                       ══ */
   .wp-block-navigation__responsive-container.is-menu-open {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    height: 100dvh;
+    position: fixed !important;
+    top: var(--sl-header-h, 4rem) !important;
+    left: 0 !important; right: 0 !important; bottom: 0 !important;
+    height: auto !important;
     z-index: 9999;
-    background: var(--wp--preset--color--background);
-    display: flex;
-    flex-direction: column;
-    animation: sl-overlay-in 0.2s ease both;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    /* no-JS fallback: readable solid background */
+    background: rgba(255, 255, 255, 0.92) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    font-size: 1rem !important; /* reset — prevents WP preset sizes cascading down */
+    animation: sl-overlay-in 0.22s ease both;
+  }
+
+  /* Once JS runs, overlay becomes transparent — backdrop does the blur */
+  .sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open {
+    background: transparent !important;
+  }
+
+  /* ══ Portal backdrop — appended to <body> by JS so it is outside the
+     header's stacking context and backdrop-filter actually works.     ══ */
+  #sl-nav-backdrop {
+    position: fixed;
+    top: var(--sl-header-h, 4rem);
+    left: 0; right: 0; bottom: 0;
+    /* Must be BELOW the header's stacking context (z-index: 1000) so that
+       backdrop-filter only blurs page content — not the overlay/menu items
+       which are painted above as part of the header layer.             */
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.72); /* fallback for older Safari */
+    background: color-mix(in srgb, var(--wp--preset--color--background) 72%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: sl-overlay-in 0.22s ease both;
+    /* pointer-events active so tapping the backdrop closes the menu */
   }
 
   @keyframes sl-overlay-in {
@@ -174,7 +357,7 @@ a, button, [role="button"],
     to   { opacity: 1; }
   }
 
-  /* Primary gradient accent bar at top */
+  /* ══ Purple accent bar at the very top of the open menu ══ */
   .wp-block-navigation__responsive-container.is-menu-open::before {
     content: '';
     display: block;
@@ -184,42 +367,18 @@ a, button, [role="button"],
     background: linear-gradient(90deg, var(--wp--preset--color--primary), var(--wp--preset--color--secondary));
   }
 
-  /* Dialog inner layout */
+  /* Dialog handles scrolling */
   .wp-block-navigation__responsive-container.is-menu-open
   .wp-block-navigation__responsive-dialog {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1.25rem var(--wp--preset--spacing--30) 2.5rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem var(--wp--preset--spacing--30) 2rem;
   }
 
-  /* ── Brand injected by JS (logo + site title) ── */
-  .sl-nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding-bottom: 1.25rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-  }
-
-  .sl-nav-brand img {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-    border-radius: 4px;
-  }
-
-  .sl-nav-brand .sl-nav-title {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--wp--preset--color--foreground);
-    line-height: 1;
-  }
-
-  /* ── Nav items ── */
+  /* ══ Nav items ══ */
   .wp-block-navigation__responsive-container.is-menu-open
   .wp-block-navigation__container {
     flex-direction: column !important;
@@ -228,17 +387,24 @@ a, button, [role="button"],
     width: 100%;
   }
 
+  /* Items visible by default — no JS required for basic readability */
   .wp-block-navigation__responsive-container.is-menu-open
   .wp-block-navigation-item {
     width: 100%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    /* stagger delay set by JS */
-    opacity: 0;
-    transform: translateY(8px);
+    opacity: 1;
+    transform: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
-  .wp-block-navigation__responsive-container.is-menu-open.sl-nav-ready
+  /* Stagger animation only when JS is confirmed running (.sl-js-loaded on body) */
+  .sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open
+  .wp-block-navigation-item {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open.sl-nav-ready
   .wp-block-navigation-item {
     opacity: 1;
     transform: none;
@@ -249,48 +415,38 @@ a, button, [role="button"],
   .wp-block-navigation__responsive-container.is-menu-open
   .wp-block-navigation-item a {
     display: block;
-    padding: 1rem 0 !important;
-    font-size: 1.25rem !important;
+    padding: 0.85rem 0 !important;
+    font-size: 1.15rem !important;
     font-weight: 500 !important;
     letter-spacing: 0 !important;
     text-decoration: none !important;
-    color: var(--wp--preset--color--foreground);
+    color: var(--wp--preset--color--foreground) !important;
+    line-height: 1.4 !important;
   }
 
-  /* Suppress the desktop underline slide inside the overlay */
+  /* Inner label span — WP sometimes applies fluid font-size here */
+  .wp-block-navigation__responsive-container.is-menu-open
+  .wp-block-navigation-item__label {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
+  /* Suppress desktop hover underline on overlay links */
   .wp-block-navigation__responsive-container.is-menu-open a::after {
     display: none !important;
   }
 
-  /* Active item */
+  /* Active item: purple underline only — text stays foreground colour */
   .wp-block-navigation__responsive-container.is-menu-open
   .current-menu-item > .wp-block-navigation-item__content,
   .wp-block-navigation__responsive-container.is-menu-open
   .current-menu-item > a {
-    color: var(--wp--preset--color--primary) !important;
-    font-weight: 700 !important;
-  }
-
-  /* ── Close button ── */
-  .wp-block-navigation__responsive-container-close {
-    position: absolute !important;
-    top: 0.875rem !important;
-    right: 1rem !important;
-    width: 40px;
-    height: 40px;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-pill);
-    background: rgba(56, 29, 146, 0.07);
-    color: var(--wp--preset--color--foreground);
-    transition: background 0.15s ease, color 0.15s ease;
-    z-index: 10001;
-  }
-
-  .wp-block-navigation__responsive-container-close:hover {
-    background: rgba(56, 29, 146, 0.14);
-    color: var(--wp--preset--color--primary);
+    color: var(--wp--preset--color--foreground) !important;
+    font-weight: 600 !important;
+    text-decoration: underline !important;
+    text-decoration-color: var(--wp--preset--color--primary) !important;
+    text-underline-offset: 4px !important;
+    text-decoration-thickness: 2px !important;
   }
 
 }
