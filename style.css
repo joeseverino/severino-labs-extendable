@@ -228,10 +228,11 @@ a, button, [role="button"],
 }
 
 @media (max-width: 768px) {
-  /* spacing--20 = 1rem drives the header's top/bottom padding via inline style.
-     Override it here so the header stays compact on small screens.           */
-  .site-sticky-header {
-    --wp--preset--spacing--20: 0.4rem;
+  /* Override the inline padding on the header's outer group block directly.
+     !important beats the inline style WP generates on this element.        */
+  .site-sticky-header .wp-block-group.alignfull {
+    padding-top: 0.65rem !important;
+    padding-bottom: 0.65rem !important;
   }
 }
 
