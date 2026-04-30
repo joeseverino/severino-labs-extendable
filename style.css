@@ -1,16 +1,14 @@
 /*
 
-Theme Name: Severino Labs - Extendable
+Theme Name: Severino Labs
 
-Template: extendable
-
-Version: 2.0
+Version: 3.0
 
 Author: Joe Severino
 
 Author URI: https://jseverino.com
 
-Description: Custom Extendable child theme with security-focused modifications and UI enhancements.
+Description: A personal portfolio and blog theme with security-focused modifications and UI enhancements.
 
 */
 
@@ -155,21 +153,144 @@ a, button, [role="button"],
 
   /* Prevent title from shifting when nav overlay opens */
   .site-sticky-header .wp-block-site-title,
-  .site-sticky-header .wp-block-site-logo {
-    flex-shrink: 0;
-  }
+  .site-sticky-header .wp-block-site-logo { flex-shrink: 0; }
 
+  /* ── Full-screen overlay ── */
   .wp-block-navigation__responsive-container.is-menu-open {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    height: 100vh;
+    top: 0; left: 0; right: 0; bottom: 0;
+    height: 100dvh;
     z-index: 9999;
-
     background: var(--wp--preset--color--background);
+    display: flex;
+    flex-direction: column;
+    animation: sl-overlay-in 0.2s ease both;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @keyframes sl-overlay-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Primary gradient accent bar at top */
+  .wp-block-navigation__responsive-container.is-menu-open::before {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 100%;
+    flex-shrink: 0;
+    background: linear-gradient(90deg, var(--wp--preset--color--primary), var(--wp--preset--color--secondary));
+  }
+
+  /* Dialog inner layout */
+  .wp-block-navigation__responsive-container.is-menu-open
+  .wp-block-navigation__responsive-dialog {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem var(--wp--preset--spacing--30) 2.5rem;
+  }
+
+  /* ── Brand injected by JS (logo + site title) ── */
+  .sl-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  }
+
+  .sl-nav-brand img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .sl-nav-brand .sl-nav-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--wp--preset--color--foreground);
+    line-height: 1;
+  }
+
+  /* ── Nav items ── */
+  .wp-block-navigation__responsive-container.is-menu-open
+  .wp-block-navigation__container {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    width: 100%;
+  }
+
+  .wp-block-navigation__responsive-container.is-menu-open
+  .wp-block-navigation-item {
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    /* stagger delay set by JS */
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .wp-block-navigation__responsive-container.is-menu-open.sl-nav-ready
+  .wp-block-navigation-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .wp-block-navigation__responsive-container.is-menu-open
+  .wp-block-navigation-item__content,
+  .wp-block-navigation__responsive-container.is-menu-open
+  .wp-block-navigation-item a {
+    display: block;
+    padding: 1rem 0 !important;
+    font-size: 1.25rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    text-decoration: none !important;
+    color: var(--wp--preset--color--foreground);
+  }
+
+  /* Suppress the desktop underline slide inside the overlay */
+  .wp-block-navigation__responsive-container.is-menu-open a::after {
+    display: none !important;
+  }
+
+  /* Active item */
+  .wp-block-navigation__responsive-container.is-menu-open
+  .current-menu-item > .wp-block-navigation-item__content,
+  .wp-block-navigation__responsive-container.is-menu-open
+  .current-menu-item > a {
+    color: var(--wp--preset--color--primary) !important;
+    font-weight: 700 !important;
+  }
+
+  /* ── Close button ── */
+  .wp-block-navigation__responsive-container-close {
+    position: absolute !important;
+    top: 0.875rem !important;
+    right: 1rem !important;
+    width: 40px;
+    height: 40px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: rgba(56, 29, 146, 0.07);
+    color: var(--wp--preset--color--foreground);
+    transition: background 0.15s ease, color 0.15s ease;
+    z-index: 10001;
+  }
+
+  .wp-block-navigation__responsive-container-close:hover {
+    background: rgba(56, 29, 146, 0.14);
+    color: var(--wp--preset--color--primary);
   }
 
 }
