@@ -31,9 +31,16 @@ a, button, [role="button"],
 .wp-block-navigation__responsive-container-open:focus:not(:focus-visible),
 .wp-block-navigation__responsive-container-close:focus:not(:focus-visible) { outline: none; }
 
-/* Restore underline on hover for body content links only */
+/* Restore underline for body content links (default + hover) */
+.wp-block-post-content a:not(.wp-block-button__link),
 .wp-block-post-content a:not(.wp-block-button__link):hover {
     text-decoration: underline;
+}
+
+/* Tech pills — no underline */
+.tech-pills a,
+.tech-pills a:hover {
+    text-decoration: none;
 }
 
 /* Card title links — no underline, colour shift only */
