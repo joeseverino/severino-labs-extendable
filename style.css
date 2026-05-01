@@ -264,11 +264,14 @@ a, button, [role="button"],
   }
 }
 
-/* ── Inline nav: keep visible above our breakpoint ───────────────────────
-   WP hides the inline __container at ≤782px. Between 641–782px, keep it
-   visible so navigation is accessible while the hamburger is hidden.     ── */
+/* ── Inline nav: keep __responsive-container visible above our breakpoint ──
+   WP's DOM structure: .wp-block-navigation > .__responsive-container > .__container
+   WP hides __responsive-container at ≤782px. Showing the inner __container
+   while its parent is display:none does nothing — we must show the parent.
+   Selector specificity (0,4,0) with !important beats WP's non-!important
+   (0,4,0) hide rule regardless of document order.                         ── */
 @media (min-width: 641px) {
-  .site-sticky-header .wp-block-navigation > .wp-block-navigation__container {
+  .site-sticky-header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) {
     display: flex !important;
   }
 }
