@@ -227,12 +227,21 @@ a, button, [role="button"],
   background: color-mix(in srgb, var(--wp--preset--color--background) 85%, transparent);
 }
 
-@media (max-width: 599px) {
-  /* Reduce header padding on mobile to match the hamburger breakpoint,
-     so the header only changes height at the same point the nav collapses. */
-  .site-sticky-header .wp-block-group.alignfull {
-    padding-top: 0.65rem !important;
-    padding-bottom: 0.65rem !important;
+/* ── Stable header height ──────────────────────────────────────────────────────
+   Overriding --wp--preset--spacing--20 here cascades naturally into header.html's
+   inline "padding: var(--wp--preset--spacing--20)" at every viewport width —
+   no media query, no !important needed.                                        */
+.site-sticky-header {
+  --wp--preset--spacing--20: 0.65rem;
+}
+
+/* Desktop nav items get the same 2.5rem (40px) min-height as the hamburger
+   so the header height is identical whether the nav or burger is showing.    */
+@media (min-width: 600px) {
+  .site-sticky-header .wp-block-navigation-item {
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
   }
 }
 
