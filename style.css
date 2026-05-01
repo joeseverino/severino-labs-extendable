@@ -688,26 +688,8 @@ a, button, [role="button"],
    Code Presentation System
    ========================= */
 
-/* Inline code / commands inside paragraphs */
-.code-inline {
-    display: inline-block;
-    padding: 0.1em 0.42em;
-    border: 1px solid rgba(15, 23, 42, 0.14);
-    border-radius: 6px;
-    background: #f8fafc;
-    color: #0f172a;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-    font-size: 0.9em;
-    font-weight: 600;
-    line-height: 1.35;
-    white-space: nowrap;
-}
-
-/* =========================
-   Code Presentation System
-   ========================= */
-
-/* Inline commands, filenames, functions, and short code references */
+/* Inline code: .code-inline for generic code, .cli-inline for commands/filenames */
+.code-inline,
 .cli-inline {
     display: inline-block;
     padding: 0.1em 0.42em;
@@ -809,6 +791,7 @@ a, button, [role="button"],
         line-height: 1.55;
     }
 
+    .code-inline,
     .cli-inline {
         font-size: 0.84em;
     }

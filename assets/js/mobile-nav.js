@@ -19,7 +19,7 @@
        element.style.setProperty(prop, val, 'important') sets an inline
        !important declaration — specificity (1,0,0,0) beats every stylesheet
        rule regardless of specificity or document order.                    ── */
-    var NAV_BREAKPOINT = window.matchMedia('(max-width: 640px)');
+    var NAV_BREAKPOINT = window.matchMedia('(max-width: 599px)');
 
     function applyNavVisibility(container, hamburger) {
         if (!container || !hamburger) return;
