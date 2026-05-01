@@ -100,9 +100,12 @@ a, button, [role="button"],
 .wp-block-navigation__responsive-container-open:focus:not(:focus-visible),
 .wp-block-navigation__responsive-container-close:focus:not(:focus-visible) { outline: none; }
 
-/* Restore underline for body content links (default + hover) */
-.wp-block-post-content a:not(.wp-block-button__link),
-.wp-block-post-content a:not(.wp-block-button__link):hover {
+/* Restore underline for body content links — scoped to prose (p, li)
+   so headings, card titles, and tech pills are unaffected            */
+.wp-block-post-content p > a:not(.wp-block-button__link),
+.wp-block-post-content li > a:not(.wp-block-button__link),
+.wp-block-post-content p > a:not(.wp-block-button__link):hover,
+.wp-block-post-content li > a:not(.wp-block-button__link):hover {
     text-decoration: underline;
 }
 
