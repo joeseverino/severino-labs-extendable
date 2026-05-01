@@ -92,31 +92,46 @@
             var navEl = document.querySelector('.wp-block-navigation');
             if (!navEl) return;
 
-            /* Don't recalculate while the overlay is open — it shifts layout */
+            /* Don't recalculate while the overlay is open */
             var overlay = navEl.querySelector('.wp-block-navigation__responsive-container');
             if (overlay && overlay.classList.contains('is-menu-open')) return;
 
-            /* Temporarily remove collapsed state to measure true desktop layout */
-            navEl.classList.remove('sl-nav-collapsed');
-            void navEl.offsetWidth; /* force reflow so measurements are fresh */
+            /* Measure the inline nav items' intrinsic width using a detached clone.
+               We can't rely on rightGroup.offsetWidth because when the hamburger is
+               hidden (display:none), the nav items are also hidden by WP's CSS and
+               the group measures as ~0. Instead we clone the inline __container,
+               measure it off-screen at max-content width, then discard the clone. */
+            var inlineItems = navEl.querySelector('.wp-block-navigation__container');
+            var navItemsWidth = 0;
 
-            var containerWidth = headerWrap.getBoundingClientRect().width;
-            var leftGroup  = headerWrap.children[0];
-            var rightGroup = headerWrap.children[1];
+            if (inlineItems) {
+                var clone = inlineItems.cloneNode(true);
+                clone.style.cssText =
+                    'position:fixed;top:-9999px;left:-9999px;' +
+                    'display:flex!important;visibility:hidden;' +
+                    'width:max-content;overflow:visible;pointer-events:none';
+                document.body.appendChild(clone);
+                navItemsWidth = clone.getBoundingClientRect().width;
+                document.body.removeChild(clone);
+            }
 
-            if (!leftGroup || !rightGroup) return;
+            var leftGroup   = headerWrap.children[0];
+            var leftWidth   = leftGroup ? leftGroup.getBoundingClientRect().width : 0;
+            var availWidth  = headerWrap.getBoundingClientRect().width;
 
-            var leftWidth  = leftGroup.getBoundingClientRect().width;
-            var rightWidth = rightGroup.getBoundingClientRect().width;
-
-            /* Collapse if left + right + 32 px minimum breathing room > container */
-            navEl.classList.toggle('sl-nav-collapsed', leftWidth + rightWidth + 32 > containerWidth);
+            /* 32 px minimum breathing room between logo and nav */
+            navEl.classList.toggle('sl-nav-collapsed', leftWidth + navItemsWidth + 32 > availWidth);
+            syncLayout(); /* keep --sl-header-h accurate after any state change */
         }
 
         check(); /* initial pass */
 
-        var ro = new ResizeObserver(function () { requestAnimationFrame(check); });
-        ro.observe(headerWrap);
+        /* Use window resize (not ResizeObserver on headerWrap) to avoid the
+           feedback loop where adding .sl-nav-collapsed changes the header size
+           which fires the observer again and oscillates. */
+        window.addEventListener('resize', function () {
+            requestAnimationFrame(check);
+        }, { passive: true });
     }
 
     function init() {
