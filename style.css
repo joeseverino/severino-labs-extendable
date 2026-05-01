@@ -245,29 +245,28 @@ a, button, [role="button"],
 .site-sticky-header .wp-block-site-logo { flex-shrink: 0; }
 
 /* ── Hamburger visibility ─────────────────────────────────────────────────
-   WP's navigation block shows the hamburger at ≤782px by default.
-   We override that so it only appears when the nav actually can't fit.
-   Based on this site's content (logo + "JOE SEVERINO" + 4 nav items)
-   the nav stops fitting at roughly 580–620px viewport width; 640px gives
-   a comfortable threshold.
+   WP's navigation block outputs its CSS as an inline <style> tag after our
+   <link> stylesheet, so same-specificity !important rules lose to WP's.
+   Solution: use a 3-class selector (specificity 0,3,0) vs WP's 1-class
+   selector (0,1,0) — higher specificity wins regardless of document order.
 
-   The global display:none overrides WP's 782px rule (our stylesheet loads
-   after WP's block styles, so same-specificity !important cascade applies).
-   The @media (max-width: 640px) then re-enables it at the correct size.    ── */
-.wp-block-navigation__responsive-container-open {
+   The nav stops fitting at roughly 580–620px; 640px is the threshold.    ── */
+
+/* Hide hamburger above our breakpoint (beats WP's 0,1,0 inline rule) */
+.site-sticky-header .wp-block-navigation .wp-block-navigation__responsive-container-open {
   display: none !important;
 }
 
+/* Show hamburger at ≤640px */
 @media (max-width: 640px) {
-  .wp-block-navigation__responsive-container-open {
+  .site-sticky-header .wp-block-navigation .wp-block-navigation__responsive-container-open {
     display: flex !important;
   }
 }
 
 /* ── Inline nav: keep visible above our breakpoint ───────────────────────
-   WP hides the inline __container at ≤782px (its own overlay breakpoint).
-   Between 641px and 782px, override that so the inline nav stays usable
-   while the hamburger is still hidden.                                    ── */
+   WP hides the inline __container at ≤782px. Between 641–782px, keep it
+   visible so navigation is accessible while the hamburger is hidden.     ── */
 @media (min-width: 641px) {
   .site-sticky-header .wp-block-navigation > .wp-block-navigation__container {
     display: flex !important;
