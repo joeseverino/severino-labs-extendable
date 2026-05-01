@@ -236,220 +236,225 @@ a, button, [role="button"],
   }
 }
 
-@media (max-width: 768px) {
+/* =========================
+   Mobile Nav
+   ========================= */
 
-  /* Prevent title from shifting when nav overlay opens */
-  .site-sticky-header .wp-block-site-title,
-  .site-sticky-header .wp-block-site-logo { flex-shrink: 0; }
+/* Prevent title shifting when nav overlay opens */
+.site-sticky-header .wp-block-site-title,
+.site-sticky-header .wp-block-site-logo { flex-shrink: 0; }
 
-  /* ══ Hamburger button — always visible, morphs cleanly into X ══ */
+/* ── Hamburger: hidden by default.
+   JS adds .sl-nav-collapsed to .wp-block-navigation when nav items can't
+   fit inline; the rule below shows the button only then.
+   @media fallback covers tiny screens before JS has had a chance to run. ── */
+.wp-block-navigation__responsive-container-open {
+  display: none !important;
+}
+
+@media (max-width: 480px) {
   .wp-block-navigation__responsive-container-open {
-    position: relative;
     display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 40px !important;
-    height: 40px !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border: none !important;
-    cursor: pointer;
-    color: var(--wp--preset--color--foreground);
-    flex-shrink: 0;
   }
+}
 
-  /* Hide WP's default SVG icon — we draw lines via pseudo-elements */
-  .wp-block-navigation__responsive-container-open svg {
-    display: none !important;
-  }
+.wp-block-navigation.sl-nav-collapsed
+.wp-block-navigation__responsive-container-open {
+  display: flex !important;
+}
 
-  /* ::before = top line + middle line (via box-shadow) */
-  /* ::after  = bottom line                              */
-  .wp-block-navigation__responsive-container-open::before,
-  .wp-block-navigation__responsive-container-open::after {
-    content: '';
-    position: absolute;
-    width: 22px;
-    height: 2px;
-    background: currentColor;
-    border-radius: 1px;
-    transition: transform 0.28s ease, box-shadow 0.28s ease;
-  }
+/* ── Hamburger button appearance (active whenever the button is visible) ── */
+.wp-block-navigation__responsive-container-open {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  color: var(--wp--preset--color--foreground);
+  flex-shrink: 0;
+}
 
-  .wp-block-navigation__responsive-container-open::before {
-    transform: translateY(-6px);
-    box-shadow: 0 6px 0 currentColor; /* middle bar */
-  }
+.wp-block-navigation__responsive-container-open svg {
+  display: none !important;
+}
 
-  .wp-block-navigation__responsive-container-open::after {
-    transform: translateY(6px);
-  }
+/* Three-bar icon via pseudo-elements */
+.wp-block-navigation__responsive-container-open::before,
+.wp-block-navigation__responsive-container-open::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
 
-  /* When menu is open: morph hamburger → X */
-  .wp-block-navigation:has(.wp-block-navigation__responsive-container.is-menu-open)
-  .wp-block-navigation__responsive-container-open::before {
-    transform: rotate(45deg);
-    box-shadow: none; /* hide middle bar */
-  }
+.wp-block-navigation__responsive-container-open::before {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 0 currentColor; /* middle bar */
+}
 
-  .wp-block-navigation:has(.wp-block-navigation__responsive-container.is-menu-open)
-  .wp-block-navigation__responsive-container-open::after {
-    transform: rotate(-45deg);
-  }
+.wp-block-navigation__responsive-container-open::after {
+  transform: translateY(6px);
+}
 
-  /* ══ Close button — visually hidden but in normal flow so .click() fires
-     reliably in all browsers. JS handles triggering it; no overlay needed. ══ */
-  .wp-block-navigation__responsive-container-close {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0,0,0,0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-  }
+/* Menu open → morph to X */
+.wp-block-navigation:has(.wp-block-navigation__responsive-container.is-menu-open)
+.wp-block-navigation__responsive-container-open::before {
+  transform: rotate(45deg);
+  box-shadow: none;
+}
 
-  /* ══ Overlay — transparent so the portal backdrop provides the blur.
-     backdrop-filter can't pierce the sticky header's stacking context,
-     so the blur lives on #sl-nav-backdrop (appended to <body> by JS).
-     Solid fallback used when JS hasn't run yet.                       ══ */
-  .wp-block-navigation__responsive-container.is-menu-open {
-    position: fixed !important;
-    top: var(--sl-header-h, 4rem) !important;
-    left: 0 !important; right: 0 !important; bottom: 0 !important;
-    height: auto !important;
-    z-index: 9999;
-    /* no-JS fallback: readable solid background */
-    background: rgba(255, 255, 255, 0.92) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 0 !important;
-    font-size: 1rem !important; /* reset — prevents WP preset sizes cascading down */
-    animation: sl-overlay-in 0.22s ease both;
-  }
+.wp-block-navigation:has(.wp-block-navigation__responsive-container.is-menu-open)
+.wp-block-navigation__responsive-container-open::after {
+  transform: rotate(-45deg);
+}
 
-  /* Once JS runs, overlay becomes transparent — backdrop does the blur */
-  .sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open {
-    background: transparent !important;
-  }
+/* ── Close button: visually hidden but in flow so .click() fires reliably ── */
+.wp-block-navigation__responsive-container-close {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
 
-  /* ══ Portal backdrop — appended to <body> by JS so it is outside the
-     header's stacking context and backdrop-filter actually works.     ══ */
-  #sl-nav-backdrop {
-    position: fixed;
-    top: var(--sl-header-h, 4rem);
-    left: 0; right: 0; bottom: 0;
-    /* Must be BELOW the header's stacking context (z-index: 1000) so that
-       backdrop-filter only blurs page content — not the overlay/menu items
-       which are painted above as part of the header layer.             */
-    z-index: 999;
-    background: rgba(255, 255, 255, 0.72); /* fallback for older Safari */
-    background: color-mix(in srgb, var(--wp--preset--color--background) 72%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    animation: sl-overlay-in 0.22s ease both;
-    /* pointer-events active so tapping the backdrop closes the menu */
-  }
+/* ── Overlay: transparent shell; #sl-nav-backdrop (portal on <body>)
+   provides the blur — backdrop-filter can't pierce the sticky header's
+   stacking context, so it lives outside it entirely.                   ── */
+.wp-block-navigation__responsive-container.is-menu-open {
+  position: fixed !important;
+  top: var(--sl-header-h, 4rem) !important;
+  left: 0 !important; right: 0 !important; bottom: 0 !important;
+  height: auto !important;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.92) !important; /* no-JS fallback */
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  animation: sl-overlay-in 0.22s ease both;
+}
 
-  @keyframes sl-overlay-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
+.sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open {
+  background: transparent !important;
+}
 
-  /* ══ Purple accent bar at the very top of the open menu ══ */
-  .wp-block-navigation__responsive-container.is-menu-open::before {
-    content: '';
-    display: block;
-    height: 3px;
-    width: 100%;
-    flex-shrink: 0;
-    background: linear-gradient(90deg, var(--wp--preset--color--primary), var(--wp--preset--color--secondary));
-  }
+/* ── Portal backdrop (appended to <body> by JS) ── */
+#sl-nav-backdrop {
+  position: fixed;
+  top: var(--sl-header-h, 4rem);
+  left: 0; right: 0; bottom: 0;
+  z-index: 999; /* below header stacking context (1000) — blurs only page content */
+  background: rgba(255, 255, 255, 0.72);
+  background: color-mix(in srgb, var(--wp--preset--color--background) 72%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: sl-overlay-in 0.22s ease both;
+}
 
-  /* Dialog handles scrolling */
-  .wp-block-navigation__responsive-container.is-menu-open
-  .wp-block-navigation__responsive-dialog {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 1rem var(--wp--preset--spacing--30) 2rem;
-  }
+@keyframes sl-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
-  /* ══ Nav items ══ */
-  .wp-block-navigation__responsive-container.is-menu-open
-  .wp-block-navigation__container {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 0 !important;
-    width: 100%;
-  }
+/* Purple accent bar at the top of the open menu */
+.wp-block-navigation__responsive-container.is-menu-open::before {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 100%;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--wp--preset--color--primary), var(--wp--preset--color--secondary));
+}
 
-  /* Items visible by default — no JS required for basic readability */
-  .wp-block-navigation__responsive-container.is-menu-open
-  .wp-block-navigation-item {
-    width: 100%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    opacity: 1;
-    transform: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
+/* Dialog scrolls */
+.wp-block-navigation__responsive-container.is-menu-open
+.wp-block-navigation__responsive-dialog {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem var(--wp--preset--spacing--30) 2rem;
+}
 
-  /* Stagger animation only when JS is confirmed running (.sl-js-loaded on body) */
-  .sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open
-  .wp-block-navigation-item {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+/* ── Nav items ── */
+.wp-block-navigation__responsive-container.is-menu-open
+.wp-block-navigation__container {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  width: 100%;
+}
 
-  .sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open.sl-nav-ready
-  .wp-block-navigation-item {
-    opacity: 1;
-    transform: none;
-  }
+.wp-block-navigation__responsive-container.is-menu-open
+.wp-block-navigation-item {
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
 
-  .wp-block-navigation__responsive-container.is-menu-open
-  .wp-block-navigation-item__content,
-  .wp-block-navigation__responsive-container.is-menu-open
-  .wp-block-navigation-item a {
-    display: block;
-    padding: 0.85rem 0 !important;
-    font-size: 1.15rem !important;
-    font-weight: 500 !important;
-    letter-spacing: 0 !important;
-    text-decoration: none !important;
-    color: var(--wp--preset--color--foreground) !important;
-    line-height: 1.4 !important;
-  }
+/* Stagger animation gated on JS running */
+.sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open
+.wp-block-navigation-item {
+  opacity: 0;
+  transform: translateY(8px);
+}
 
-  /* Inner label span — WP sometimes applies fluid font-size here */
-  .wp-block-navigation__responsive-container.is-menu-open
-  .wp-block-navigation-item__label {
-    font-size: inherit !important;
-    line-height: inherit !important;
-  }
+.sl-js-loaded .wp-block-navigation__responsive-container.is-menu-open.sl-nav-ready
+.wp-block-navigation-item {
+  opacity: 1;
+  transform: none;
+}
 
-  /* Suppress desktop hover underline on overlay links */
-  .wp-block-navigation__responsive-container.is-menu-open a::after {
-    display: none !important;
-  }
+.wp-block-navigation__responsive-container.is-menu-open
+.wp-block-navigation-item__content,
+.wp-block-navigation__responsive-container.is-menu-open
+.wp-block-navigation-item a {
+  display: block;
+  padding: 0.85rem 0 !important;
+  font-size: 1.15rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+  color: var(--wp--preset--color--foreground) !important;
+  line-height: 1.4 !important;
+}
 
-  /* Active item: purple underline only — text stays foreground colour */
-  .wp-block-navigation__responsive-container.is-menu-open
-  .current-menu-item > .wp-block-navigation-item__content,
-  .wp-block-navigation__responsive-container.is-menu-open
-  .current-menu-item > a {
-    color: var(--wp--preset--color--foreground) !important;
-    font-weight: 600 !important;
-    text-decoration: underline !important;
-    text-decoration-color: var(--wp--preset--color--primary) !important;
-    text-underline-offset: 4px !important;
-    text-decoration-thickness: 2px !important;
-  }
+.wp-block-navigation__responsive-container.is-menu-open
+.wp-block-navigation-item__label {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
 
+/* Suppress desktop hover underline inside overlay */
+.wp-block-navigation__responsive-container.is-menu-open a::after {
+  display: none !important;
+}
+
+/* Active item: purple underline only — text stays foreground colour */
+.wp-block-navigation__responsive-container.is-menu-open
+.current-menu-item > .wp-block-navigation-item__content,
+.wp-block-navigation__responsive-container.is-menu-open
+.current-menu-item > a {
+  color: var(--wp--preset--color--foreground) !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--wp--preset--color--primary) !important;
+  text-underline-offset: 4px !important;
+  text-decoration-thickness: 2px !important;
 }
 
 .post-badge {

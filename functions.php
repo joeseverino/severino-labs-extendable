@@ -10,20 +10,18 @@ add_action( 'after_setup_theme', function () {
 	add_editor_style( 'style.css' );
 } );
 
-/* ── Enqueue theme stylesheet ── */
+/* ── Enqueue theme stylesheet + mobile nav script ── */
 add_action( 'wp_enqueue_scripts', function () {
+	$theme_dir = get_stylesheet_directory();
+
 	wp_enqueue_style(
 		'severino-labs-style',
 		get_stylesheet_uri(),
 		[],
-		filemtime( get_stylesheet_directory() . '/style.css' )
+		filemtime( $theme_dir . '/style.css' )
 	);
-} );
 
-/* ── Enqueue mobile nav script ── */
-add_action( 'wp_enqueue_scripts', function () {
-	$nav_js = get_stylesheet_directory() . '/assets/js/mobile-nav.js';
-
+	$nav_js = $theme_dir . '/assets/js/mobile-nav.js';
 	wp_enqueue_script(
 		'severino-labs-mobile-nav',
 		get_stylesheet_directory_uri() . '/assets/js/mobile-nav.js',
@@ -31,14 +29,6 @@ add_action( 'wp_enqueue_scripts', function () {
 		file_exists( $nav_js ) ? filemtime( $nav_js ) : '1.0',
 		true
 	);
-
-	$logo_id  = get_theme_mod( 'custom_logo' );
-	$logo_url = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
-
-	wp_localize_script( 'severino-labs-mobile-nav', 'SeverinoNavData', [
-		'logoUrl'   => $logo_url,
-		'siteTitle' => get_bloginfo( 'name' ),
-	] );
 } );
 
 /* ── Mark active nav item for custom links / archives ── */

@@ -83,10 +83,47 @@
         });
     }
 
+    /* ── Overflow-based collapse: hamburger only when nav can't fit inline ── */
+    function setupNavFitCheck() {
+        var headerWrap = document.querySelector('.site-sticky-header .wp-block-group.alignwide');
+        if (!headerWrap) return;
+
+        function check() {
+            var navEl = document.querySelector('.wp-block-navigation');
+            if (!navEl) return;
+
+            /* Don't recalculate while the overlay is open — it shifts layout */
+            var overlay = navEl.querySelector('.wp-block-navigation__responsive-container');
+            if (overlay && overlay.classList.contains('is-menu-open')) return;
+
+            /* Temporarily remove collapsed state to measure true desktop layout */
+            navEl.classList.remove('sl-nav-collapsed');
+            void navEl.offsetWidth; /* force reflow so measurements are fresh */
+
+            var containerWidth = headerWrap.getBoundingClientRect().width;
+            var leftGroup  = headerWrap.children[0];
+            var rightGroup = headerWrap.children[1];
+
+            if (!leftGroup || !rightGroup) return;
+
+            var leftWidth  = leftGroup.getBoundingClientRect().width;
+            var rightWidth = rightGroup.getBoundingClientRect().width;
+
+            /* Collapse if left + right + 32 px minimum breathing room > container */
+            navEl.classList.toggle('sl-nav-collapsed', leftWidth + rightWidth + 32 > containerWidth);
+        }
+
+        check(); /* initial pass */
+
+        var ro = new ResizeObserver(function () { requestAnimationFrame(check); });
+        ro.observe(headerWrap);
+    }
+
     function init() {
         document.body.classList.add('sl-js-loaded');
         syncLayout();
         window.addEventListener('resize', syncLayout, { passive: true });
+        setupNavFitCheck();
 
         /* ── HAMBURGER TOGGLE — document capture fires before ANY element handler,
            including WP's. Two cases handled:
