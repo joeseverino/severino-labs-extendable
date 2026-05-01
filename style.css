@@ -244,23 +244,34 @@ a, button, [role="button"],
 .site-sticky-header .wp-block-site-title,
 .site-sticky-header .wp-block-site-logo { flex-shrink: 0; }
 
-/* ── Hamburger: hidden by default.
-   JS adds .sl-nav-collapsed to .wp-block-navigation when nav items can't
-   fit inline; the rule below shows the button only then.
-   @media fallback covers tiny screens before JS has had a chance to run. ── */
+/* ── Hamburger visibility ─────────────────────────────────────────────────
+   WP's navigation block shows the hamburger at ≤782px by default.
+   We override that so it only appears when the nav actually can't fit.
+   Based on this site's content (logo + "JOE SEVERINO" + 4 nav items)
+   the nav stops fitting at roughly 580–620px viewport width; 640px gives
+   a comfortable threshold.
+
+   The global display:none overrides WP's 782px rule (our stylesheet loads
+   after WP's block styles, so same-specificity !important cascade applies).
+   The @media (max-width: 640px) then re-enables it at the correct size.    ── */
 .wp-block-navigation__responsive-container-open {
   display: none !important;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .wp-block-navigation__responsive-container-open {
     display: flex !important;
   }
 }
 
-.wp-block-navigation.sl-nav-collapsed
-.wp-block-navigation__responsive-container-open {
-  display: flex !important;
+/* ── Inline nav: keep visible above our breakpoint ───────────────────────
+   WP hides the inline __container at ≤782px (its own overlay breakpoint).
+   Between 641px and 782px, override that so the inline nav stays usable
+   while the hamburger is still hidden.                                    ── */
+@media (min-width: 641px) {
+  .site-sticky-header .wp-block-navigation > .wp-block-navigation__container {
+    display: flex !important;
+  }
 }
 
 /* ── Hamburger button appearance (active whenever the button is visible) ── */
