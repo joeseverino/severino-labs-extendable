@@ -109,12 +109,12 @@ a, button, [role="button"],
 /* Tech pills — no underline */
 .tech-pills a,
 .tech-pills a:hover {
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 /* Card title links — no underline, colour shift only */
 .featured-projects .wp-block-post-title a {
-    text-decoration: none !important;
+    text-decoration: none;
     transition: color 0.15s ease;
 }
 .featured-projects .wp-block-post-title a:hover {
@@ -127,7 +127,7 @@ a, button, [role="button"],
 
 .wp-block-navigation a {
     position: relative;
-    text-decoration: none !important;
+    text-decoration: none;
     letter-spacing: 0.03em;
     font-weight: var(--wp--custom--typography--font-weight--medium);
     transition: color 0.2s ease;
