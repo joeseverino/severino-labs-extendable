@@ -227,7 +227,7 @@ a, button, [role="button"],
   background: color-mix(in srgb, var(--wp--preset--color--background) 85%, transparent);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 599px) {
   /* Reduce header padding on mobile to match the hamburger breakpoint,
      so the header only changes height at the same point the nav collapses. */
   .site-sticky-header .wp-block-group.alignfull {
