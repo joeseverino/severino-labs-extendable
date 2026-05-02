@@ -390,9 +390,9 @@ a, button, [role="button"],
 /* ── Nav items ── */
 .wp-block-navigation__responsive-container.is-menu-open
 .wp-block-navigation__container {
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 0 !important;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
   width: 100%;
 }
 
@@ -423,24 +423,24 @@ a, button, [role="button"],
 .wp-block-navigation__responsive-container.is-menu-open
 .wp-block-navigation-item a {
   display: block;
-  padding: 0.85rem 0 !important;
-  font-size: 1.15rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0 !important;
-  text-decoration: none !important;
-  color: var(--wp--preset--color--foreground) !important;
-  line-height: 1.4 !important;
+  padding: 0.85rem 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-decoration: none;
+  color: var(--wp--preset--color--foreground);
+  line-height: 1.4;
 }
 
 .wp-block-navigation__responsive-container.is-menu-open
 .wp-block-navigation-item__label {
-  font-size: inherit !important;
-  line-height: inherit !important;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 /* Suppress desktop hover underline inside overlay */
 .wp-block-navigation__responsive-container.is-menu-open a::after {
-  display: none !important;
+  display: none;
 }
 
 /* Active item: purple underline only — text stays foreground colour */
@@ -448,12 +448,12 @@ a, button, [role="button"],
 .current-menu-item > .wp-block-navigation-item__content,
 .wp-block-navigation__responsive-container.is-menu-open
 .current-menu-item > a {
-  color: var(--wp--preset--color--foreground) !important;
-  font-weight: 600 !important;
-  text-decoration: underline !important;
-  text-decoration-color: var(--wp--preset--color--primary) !important;
-  text-underline-offset: 4px !important;
-  text-decoration-thickness: 2px !important;
+  color: var(--wp--preset--color--foreground);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--wp--preset--color--primary);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
 }
 
 .post-badge {
