@@ -956,3 +956,35 @@ figcaption code,
         min-height: 2.4rem !important;
     }
 }
+
+/* Force next arrow to be perfectly centered */
+
+.featured-projects .wp-block-query-pagination-next {
+    position: relative !important;
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+    min-width: 2.75rem !important;
+    min-height: 2.75rem !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+}
+
+.featured-projects .wp-block-query-pagination-next::before {
+    content: "→";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    line-height: 1;
+    transform: translateY(-0.02em);
+}
+
+.featured-projects .wp-block-query-pagination-next::after {
+    display: none !important;
+}
