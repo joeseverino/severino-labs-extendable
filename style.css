@@ -844,24 +844,28 @@ figcaption code,
 
     font-size: 0.95rem;
     font-weight: 600;
+    line-height: 1;
 }
 
 .featured-projects .wp-block-query-pagination-numbers {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
+    gap: 0.55rem;
 }
 
+/* Shared pagination pill/button style */
 .featured-projects .wp-block-query-pagination a,
 .featured-projects .wp-block-query-pagination .page-numbers {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    min-width: 2.25rem;
-    min-height: 2.25rem;
-    padding: 0.35rem 0.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
 
     border-radius: var(--radius-pill);
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -889,6 +893,7 @@ figcaption code,
     box-shadow: var(--wp--preset--shadow--soft-lg);
 }
 
+/* Current page */
 .featured-projects .wp-block-query-pagination .current {
     background: var(--wp--preset--color--primary);
     border-color: var(--wp--preset--color--primary);
@@ -896,15 +901,37 @@ figcaption code,
     box-shadow: var(--wp--preset--shadow--soft);
 }
 
+/* Previous / next buttons */
 .featured-projects .wp-block-query-pagination-previous,
 .featured-projects .wp-block-query-pagination-next {
-    min-width: auto !important;
-    padding-inline: 1rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+    min-width: 2.75rem !important;
+    min-height: 2.75rem !important;
+    padding: 0 !important;
+
+    line-height: 1 !important;
+    font-size: 1.05rem;
 }
 
-/* Avoid desktop nav underline animation affecting pagination links */
-.featured-projects .wp-block-query-pagination a::after {
-    display: none;
+/* Prevent theme/nav underline effects from touching pagination links */
+.featured-projects .wp-block-query-pagination a::after,
+.featured-projects .wp-block-query-pagination-previous::after,
+.featured-projects .wp-block-query-pagination-next::after {
+    display: none !important;
+}
+
+/* Keep visited pagination links visually consistent */
+.featured-projects .wp-block-query-pagination a:visited {
+    color: var(--wp--preset--color--foreground);
+}
+
+.featured-projects .wp-block-query-pagination .current:visited {
+    color: #fff;
 }
 
 @media (max-width: 600px) {
@@ -915,10 +942,17 @@ figcaption code,
         flex-wrap: wrap;
     }
 
+    .featured-projects .wp-block-query-pagination-numbers {
+        gap: 0.45rem;
+    }
+
     .featured-projects .wp-block-query-pagination a,
-    .featured-projects .wp-block-query-pagination .page-numbers {
-        min-width: 2rem;
-        min-height: 2rem;
-        padding: 0.3rem 0.65rem;
+    .featured-projects .wp-block-query-pagination .page-numbers,
+    .featured-projects .wp-block-query-pagination-previous,
+    .featured-projects .wp-block-query-pagination-next {
+        width: 2.4rem !important;
+        height: 2.4rem !important;
+        min-width: 2.4rem !important;
+        min-height: 2.4rem !important;
     }
 }
