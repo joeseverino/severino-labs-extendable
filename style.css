@@ -828,51 +828,97 @@ figcaption code,
     white-space: nowrap;
 }
 
-/* Portfolio archive pagination */
-.wp-block-query-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  margin: 2.5rem auto 0;
-  font-weight: 600;
+/* =========================
+   Portfolio Archive Pagination
+   ========================= */
+
+.featured-projects .wp-block-query-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+
+    max-width: 1100px;
+    margin: 2.75rem auto 0;
+    padding: 0 1rem;
+
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
-.wp-block-query-pagination-numbers {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.featured-projects .wp-block-query-pagination-numbers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
 }
 
-.wp-block-query-pagination a,
-.wp-block-query-pagination .page-numbers {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.25rem;
-  min-height: 2.25rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: 999px;
-  text-decoration: none;
-  color: var(--wp--preset--color--contrast, #111);
-  background: rgba(0, 0, 0, 0.04);
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+.featured-projects .wp-block-query-pagination a,
+.featured-projects .wp-block-query-pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0.35rem 0.75rem;
+
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(0, 0, 0, 0.035);
+    color: var(--wp--preset--color--foreground);
+
+    text-decoration: none;
+    line-height: 1;
+    box-shadow: var(--wp--preset--shadow--soft);
+
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        color 0.15s ease;
 }
 
-.wp-block-query-pagination a:hover,
-.wp-block-query-pagination .page-numbers:hover {
-  transform: translateY(-1px);
-  background: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+.featured-projects .wp-block-query-pagination a:hover,
+.featured-projects .wp-block-query-pagination .page-numbers:hover {
+    transform: translateY(-2px);
+    background: rgba(0, 0, 0, 0.065);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--wp--preset--color--primary);
+    box-shadow: var(--wp--preset--shadow--soft-lg);
 }
 
-.wp-block-query-pagination .current {
-  background: var(--wp--preset--color--primary, #4f35d9);
-  color: #fff;
+.featured-projects .wp-block-query-pagination .current {
+    background: var(--wp--preset--color--primary);
+    border-color: var(--wp--preset--color--primary);
+    color: #fff;
+    box-shadow: var(--wp--preset--shadow--soft);
 }
 
-.wp-block-query-pagination-previous,
-.wp-block-query-pagination-next {
-  min-width: auto !important;
-  padding-inline: 1rem !important;
+.featured-projects .wp-block-query-pagination-previous,
+.featured-projects .wp-block-query-pagination-next {
+    min-width: auto !important;
+    padding-inline: 1rem !important;
+}
+
+/* Avoid desktop nav underline animation affecting pagination links */
+.featured-projects .wp-block-query-pagination a::after {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .featured-projects .wp-block-query-pagination {
+        gap: 0.5rem;
+        margin-top: 2.25rem;
+        font-size: 0.9rem;
+        flex-wrap: wrap;
+    }
+
+    .featured-projects .wp-block-query-pagination a,
+    .featured-projects .wp-block-query-pagination .page-numbers {
+        min-width: 2rem;
+        min-height: 2rem;
+        padding: 0.3rem 0.65rem;
+    }
 }
